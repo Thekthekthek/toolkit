@@ -137,3 +137,55 @@ func TestTools_CreateDirIfNotExist(t *testing.T) {
 
 	os.Remove("./testdata/mydir")
 }
+
+var slugTest = []struct {
+	name          string
+	s             string
+	expected      string
+	errorExpected bool
+}{
+	{
+		name:          "valid string",
+		s:             "now is the time",
+		expected:      "now-is-the-time",
+		errorExpected: false,
+	},
+	{
+		name:          "complex string",
+		s:             "Now is the time for all GOOD men! + fish & such &^123",
+		expected:      "now-is-the-time-for-all-good-men-fish-such-123",
+		errorExpected: false,
+	},
+	{
+		name:          "japanese string",
+		s:             "ハローワールド",
+		expected:      "",
+		errorExpected: true,
+	},
+	{
+		name:          "japanese string and roman character",
+		s:             "ハhロeーlワlーoルwoドrld",
+		expected:      "h-e-l-l-o-wo-rld",
+		errorExpected: false,
+	},
+	{
+		name:          "invalid string",
+		s:             "",
+		expected:      "",
+		errorExpected: true,
+	},
+}
+
+func TestTools_Slugify(t *testing.T) {
+	var testools Tools
+
+	for _, e := range slugTest {
+		slug, err := testools.Slugify(e.s)
+		if err != nil && !e.errorExpected {
+			t.Error(err)
+		}
+		if slug != e.expected && !e.errorExpected {
+			t.Errorf("Slug is not '%s': %s", e.expected, slug)
+		}
+	}
+}
