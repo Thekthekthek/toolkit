@@ -1,12 +1,9 @@
-package toolkit
-
 import (
 	"fmt"
 	"image"
 	"image/png"
 	"io"
 	"mime/multipart"
-	"net/http"
 	"net/http/httptest"
 	"os"
 	"sync"
@@ -188,26 +185,5 @@ func TestTools_Slugify(t *testing.T) {
 		if slug != e.expected && !e.errorExpected {
 			t.Errorf("Slug is not '%s': %s", e.expected, slug)
 		}
-	}
-}
-
-func TestTools_DownloadStaticFile(t *testing.T) {
-	var testools Tools
-	rr := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/", nil)
-	testools.DownloadtaticFile(rr, req, "./testdata/", "FileToDownload.go", "pop.go")
-
-	res := rr.Result()
-	defer res.Body.Close()
-	if res.Header["Content-Length"][0] != "4506" {
-		t.Error("Wrong content length, actual length : ", res.Header["Content-Length"][0])
-	}
-	if res.Header["Content-Disposition"][0] != "attachment; filename=\"pop.go\"" {
-		t.Error("Wrong content disposition, actual disposition : ", res.Header["Content-Disposition"][0])
-	}
-
-	_, err := io.ReadAll(res.Body)
-	if err != nil {
-		t.Error(err)
 	}
 }
