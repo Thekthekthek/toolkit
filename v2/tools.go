@@ -9,7 +9,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -158,10 +157,9 @@ func (t *Tools) Slugify(s string) (string, error) {
 	return slug, nil
 }
 
-func (t *Tools) DownloadtaticFile(w http.ResponseWriter, r *http.Request, p, file, displayName string) {
-	filePath := path.Join(p, file)
+func (t *Tools) DownloadtaticFile(w http.ResponseWriter, r *http.Request, pathname, displayName string) {
 	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", displayName))
-	http.ServeFile(w, r, filePath)
+	http.ServeFile(w, r, pathname)
 }
 
 type JSONResponse struct {

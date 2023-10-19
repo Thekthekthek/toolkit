@@ -198,7 +198,7 @@ func TestTools_DownloadStaticFile(t *testing.T) {
 	var testools Tools
 	rr := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/", nil)
-	testools.DownloadtaticFile(rr, req, "./testdata/", "FileToDownload.go", "pop.go")
+	testools.DownloadtaticFile(rr, req, "./testdata/FileToDownload.go", "pop.go")
 
 	res := rr.Result()
 	defer res.Body.Close()
