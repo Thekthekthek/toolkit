@@ -1,3 +1,3 @@
-module github.com/thekthekthek/toolkit/v2
+module github.com/thekthekthek/toolkit
 
 go 1.21.3
